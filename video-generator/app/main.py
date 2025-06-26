@@ -11,7 +11,7 @@ from typing import Optional, Dict, Any
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 
-class ImageRequest(BaseModel):
+class VideoRequest(BaseModel):
     prompt: str
     model_name: str
     params: Optional[Dict[str, Any]] = {}  # Dynamic parameters for each model
@@ -19,8 +19,8 @@ class ImageRequest(BaseModel):
 # Connect to Redis
 redis_conn = Redis(host="redis", port=6379, decode_responses=True)
 
-# Queue
-queue = Queue("image_requests", connection=redis_conn)
+# Video Queue
+queue = Queue("video_requests", connection=redis_conn)
 
 # WebSocket connections
 active_connections = {}
@@ -29,7 +29,7 @@ client_result_keys = set()
 def generate_client_id():
     return str(uuid.uuid4())
 
-@app.websocket("/ws/{client_id}")
+@app.websocket("/video-ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     await websocket.accept()
     active_connections[client_id] = websocket
@@ -44,9 +44,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         active_connections.pop(client_id, None)
         logging.info(f"WebSocket disconnected: {client_id}")
 
-@app.post("/generate/")
-async def generate_image(request: ImageRequest):
-    """Queue an image generation job with dynamic parameters."""
+@app.post("/generate-video/")
+async def generate_video(request: VideoRequest):
+    """Queue a video generation job with dynamic parameters."""
     if not request.prompt:
         raise HTTPException(status_code=400, detail="Prompt cannot be empty")
 
@@ -57,15 +57,15 @@ async def generate_image(request: ImageRequest):
         "model_name": request.model_name,
         "prompt": request.prompt,
         "client_id": client_id,
-        "params": request.params  # Pass all model-specific parameters here
+        "params": request.params
     }
 
     job = queue.enqueue(router.run_model_task, **job_args, retry=Retry(max=40))
-    logging.info(f"Job queued for client {client_id}")
-    return {"job_id": job.id, "client_id": client_id, "message": "Image generation job queued."}
+    logging.info(f"Video job queued for client {client_id}")
+    return {"job_id": job.id, "client_id": client_id, "message": "Video generation job queued."}
 
-@app.get("/result/{client_id}")
-async def get_result(client_id: str):
+@app.get("/video-result/{client_id}")
+async def get_video_result(client_id: str):
     result = redis_conn.get(f"result:{client_id}")
     if result:
         return {"status": "done", "result": result}
@@ -82,9 +82,9 @@ async def monitor_results():
                 if websocket:
                     try:
                         await websocket.send_text(f"Result Ready: {result}")
-                        logging.info(f"Result pushed to client {client_id}")
+                        logging.info(f"Video result pushed to client {client_id}")
                     except Exception as e:
-                        logging.error(f"Failed to send result to {client_id}: {e}")
+                        logging.error(f"Failed to send video result to {client_id}: {e}")
                 client_result_keys.remove(client_id)
 
 @app.on_event("startup")

@@ -1,0 +1,58 @@
+import fal_client
+from redis import Redis
+import logging
+import os
+import json
+from dotenv import load_dotenv
+
+load_dotenv()
+
+os.environ["FAL_KEY"] = "671b3239-6a7c-4449-a85e-caa161fe3351:631d5730d85692de182d398b1b072496"
+
+redis_conn = Redis(host="redis", port=6379)
+logging.basicConfig(level=logging.INFO)
+
+RESULT_TTL = 3600
+
+def generate_image(model_name, prompt, client_id, params):
+    """
+    Generate video using fal-ai/kling-video/v1.6/pro/image-to-video model.
+
+    Parameters:
+      model_name (str): Model identifier.
+      prompt (str): Text prompt to guide generation.
+      client_id (str): Redis key to store the result.
+      params (dict): Additional parameters for the model.
+    """
+    try:
+        logging.info(f"Generating video for client {client_id} using model {model_name}...")
+
+        # Build args according to model specification
+        args = {
+            "prompt": prompt,
+            "image_url": params.get("image_url"),
+            "duration": params.get("duration", 3),
+            "aspect_ratio": params.get("aspect_ratio", "square"),
+            "tail_image_url": params.get("tail_image_url"),
+            "negative_prompt": params.get("negative_prompt", ""),
+            "cfg_scale": params.get("cfg_scale", 3.5)
+        }
+
+        # Validate required param
+        if not args["image_url"]:
+            raise ValueError("Missing required parameter: image_url")
+
+        logging.info(f"Fal arguments: {args}")
+
+        # Submit to Fal
+        handler = fal_client.submit(model_name, arguments=args)
+        result = handler.get()
+
+        # Save result to Redis
+        redis_conn.setex(f"result:{client_id}", RESULT_TTL, json.dumps(result))
+        logging.info(f"Video generation completed for client {client_id}")
+
+    except Exception as e:
+        error_msg = f"Error: {str(e)}"
+        redis_conn.setex(f"result:{client_id}", RESULT_TTL, error_msg)
+        logging.error(f"Failed to generate video for {client_id}: {error_msg}")

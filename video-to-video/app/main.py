@@ -11,16 +11,16 @@ from typing import Optional, Dict, Any
 app = FastAPI()
 logging.basicConfig(level=logging.INFO)
 
-class ImageRequest(BaseModel):
+class V2VRequest(BaseModel):
     prompt: str
     model_name: str
-    params: Optional[Dict[str, Any]] = {}  # Dynamic parameters for each model
+    params: Optional[Dict[str, Any]] = {}
 
 # Connect to Redis
 redis_conn = Redis(host="redis", port=6379, decode_responses=True)
 
-# Queue
-queue = Queue("image_requests", connection=redis_conn)
+# Create a separate queue for video-to-video requests
+v2v_queue = Queue("v2v_requests", connection=redis_conn)
 
 # WebSocket connections
 active_connections = {}
@@ -29,12 +29,11 @@ client_result_keys = set()
 def generate_client_id():
     return str(uuid.uuid4())
 
-@app.websocket("/ws/{client_id}")
+@app.websocket("/v2v/ws/{client_id}")
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
     await websocket.accept()
     active_connections[client_id] = websocket
     logging.info(f"WebSocket connected: {client_id}")
-
     try:
         while True:
             await websocket.send_text("ping")
@@ -44,9 +43,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
         active_connections.pop(client_id, None)
         logging.info(f"WebSocket disconnected: {client_id}")
 
-@app.post("/generate/")
-async def generate_image(request: ImageRequest):
-    """Queue an image generation job with dynamic parameters."""
+@app.post("/v2v/generate/")
+async def generate_v2v(request: V2VRequest):
+    """Queue a video-to-video generation job with dynamic parameters."""
     if not request.prompt:
         raise HTTPException(status_code=400, detail="Prompt cannot be empty")
 
@@ -57,19 +56,18 @@ async def generate_image(request: ImageRequest):
         "model_name": request.model_name,
         "prompt": request.prompt,
         "client_id": client_id,
-        "params": request.params  # Pass all model-specific parameters here
+        "params": request.params
     }
 
-    job = queue.enqueue(router.run_model_task, **job_args, retry=Retry(max=40))
-    logging.info(f"Job queued for client {client_id}")
-    return {"job_id": job.id, "client_id": client_id, "message": "Image generation job queued."}
+    job = v2v_queue.enqueue(router.run_model_task, **job_args, retry=Retry(max=40))
+    logging.info(f"V2V job queued for client {client_id}")
+    return {"job_id": job.id, "client_id": client_id, "message": "Video-to-video job queued."}
 
-@app.get("/result/{client_id}")
+@app.get("/v2v/result/{client_id}")
 async def get_result(client_id: str):
     result = redis_conn.get(f"result:{client_id}")
     if result:
         return {"status": "done", "result": result}
-
     return {"status": "pending"}
 
 async def monitor_results():

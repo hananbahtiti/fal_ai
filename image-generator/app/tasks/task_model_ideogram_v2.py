@@ -7,7 +7,6 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-os.environ["FAL_KEY"] = "671b3239-6a7c-4449-a85e-caa161fe3351:631d5730d85692de182d398b1b072496"
 
 redis_conn = Redis(host="redis", port=6379)
 logging.basicConfig(level=logging.INFO)

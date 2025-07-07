@@ -76,7 +76,7 @@ services:
     restart: always
 
   # VIDEO TO VIDEO
-  v2v-api:
+  video2video-api:
     build:
       context: .
       dockerfile: Dockerfile.api
@@ -87,7 +87,7 @@ services:
     depends_on:
       - video2video-redis
     networks:
-      - v2v-net
+      - video2video-net
     restart: always
 
   v2v-worker:
@@ -99,21 +99,21 @@ services:
     depends_on:
       - video2video-redis
     networks:
-      - v2v-net
+      - video2video-net
     deploy:
       replicas: 5
     restart: always
 
-  v2v-redis:
+  video2video-redis:
     image: redis:latest
     ports:
       - "6373:6379"
     networks:
-      - v2v-net
+      - video2video-net
     restart: always
 
   # IMAGE TRAINING
-  train-api:
+  train-images-api:
     build:
       context: .
       dockerfile: Dockerfile.api
@@ -124,10 +124,10 @@ services:
     depends_on:
       - train-images-redis
     networks:
-      - train-net
+      - train-images-net
     restart: always
 
-  train-worker:
+  train-images-worker:
     build:
       context: .
       dockerfile: Dockerfile.worker
@@ -136,21 +136,21 @@ services:
     depends_on:
       - train-images-redis
     networks:
-      - train-net
+      - train-images-net
     deploy:
       replicas: 5
     restart: always
 
-  train-redis:
+  train-images-redis:
     image: redis:latest
     ports:
       - "6374:6379"
     networks:
-      - train-net
+      - train-images-net
     restart: always
 
   # IMAGE PROCESSING
-  processing-api:
+  image-processing-api:
     build:
       context: .
       dockerfile: Dockerfile.api
@@ -161,10 +161,10 @@ services:
     depends_on:
       - image-processing-redis
     networks:
-      - processing-net
+      - image-processing-net
     restart: always
 
-  processing-worker:
+  image-processing-worker:
     build:
       context: .
       dockerfile: Dockerfile.worker
@@ -173,22 +173,22 @@ services:
     depends_on:
       - image-processing-redis
     networks:
-      - processing-net
+      - image-processing-net
     deploy:
       replicas: 5
     restart: always
 
-  processing-redis:
+  image-processing-redis:
     image: redis:latest
     ports:
       - "6375:6379"
     networks:
-      - processing-net
+      - image-processing-net
     restart: always
 
 networks:
   image-net:
   video-net:
-  v2v-net:
-  train-net:
-  processing-net:
+  video2video-net:
+  train-images-net:
+  image-processing-net:

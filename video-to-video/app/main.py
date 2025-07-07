@@ -17,7 +17,7 @@ class V2VRequest(BaseModel):
     params: Optional[Dict[str, Any]] = {}
 
 # Connect to Redis
-redis_conn = Redis(host="redis", port=6379, decode_responses=True)
+redis_conn = Redis(host="video2video-redis", port=6379, decode_responses=True)
 
 # Create a separate queue for video-to-video requests
 v2v_queue = Queue("v2v_requests", connection=redis_conn)

@@ -11,7 +11,7 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 logging.basicConfig(level=logging.INFO)
 
 
-redis_conn = redis.Redis(host="redis", port=6379)
+redis_conn = redis.Redis(host="train-images-redis", port=6379)
 
 
 queue_name = "train_image_requests"

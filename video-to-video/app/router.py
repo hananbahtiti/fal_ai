@@ -1,19 +1,17 @@
 import logging
-from tasks import task_model_flux_pro, task_model_flux_pro_ultra, task_model_flux_dev, task_model_ideogram_v2, task_model_flux_schnell  # Add all models here
+from tasks import task_model_video_upscaler, task_model_sync_lipsync, task_model_minimax_video_01_image_to_video
 
 def run_model_task(**kwargs):
     model_name = kwargs.get("model_name")
     
-    if model_name == "fal-ai/flux-pro/v1.1":
-        task_model_flux_pro.generate_image(**kwargs)
-    elif model_name == "fal-ai/flux-pro/v1.1-ultra":
-        task_model_flux_pro_ultra.generate_image(**kwargs)
-    elif model_name == "fal-ai/flux/dev":
-        task_model_flux_dev.generate_image(**kwargs)
-    elif model_name == "fal-ai/ideogram/v2":
-        task_model_ideogram_v2.generate_image(**kwargs)
-    elif model_name == "fal-ai/flux/schnell":
-        task_model_flux_schnell.generate_image(**kwargs)
+    if model_name == "fal-ai/kling-video/v1.6/pro/image-to-video":
+        task_model_kling_video_v1_6_pro_image_to_video.generate_image(**kwargs)
+    elif model_name == "fal-ai/minimax/video-01/image-to-video":
+        task_model_minimax_video_01_image_to_video.generate_image(**kwargs)
+    elif model_name == "fal-ai/sync-lipsync":
+        task_model_sync_lipsync.generate_image(**kwargs)
+    elif model_name == "fal-ai/video-upscaler":
+        task_model_video_upscaler.generate_image(**kwargs)
     else:
         logging.error(f"Unsupported model: {model_name}")
         raise ValueError(f"Unsupported model: {model_name}")

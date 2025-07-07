@@ -17,10 +17,10 @@ class ImageRequest(BaseModel):
     params: Optional[Dict[str, Any]] = {}
 
 # Connect to Redis
-redis_conn = Redis(host="redis", port=6379, decode_responses=True)
+redis_conn = Redis(host="image-processing-redis", port=6379, decode_responses=True)
 
 # Updated queue name
-queue = Queue("image_processing", connection=redis_conn)
+queue = Queue("image_processing_requests", connection=redis_conn)
 
 # WebSocket connections
 active_connections = {}

@@ -4,7 +4,7 @@ services:
   # IMAGE GENERATOR
   image-api:
     build:
-      context: .
+      context: ./image-generator
       dockerfile: Dockerfile.api
     env_file:
       - .env
@@ -41,7 +41,7 @@ services:
   # VIDEO GENERATOR
   video-api:
     build:
-      context: .
+      context: ./video-generator
       dockerfile: Dockerfile.api
     env_file:
       - .env
@@ -78,7 +78,7 @@ services:
   # VIDEO TO VIDEO
   video2video-api:
     build:
-      context: .
+      context: ./video-to-video
       dockerfile: Dockerfile.api
     env_file:
       - .env
@@ -115,7 +115,7 @@ services:
   # IMAGE TRAINING
   train-images-api:
     build:
-      context: .
+      context: ./train-images
       dockerfile: Dockerfile.api
     env_file:
       - .env
@@ -152,7 +152,7 @@ services:
   # IMAGE PROCESSING
   image-processing-api:
     build:
-      context: .
+      context: ./image-processing
       dockerfile: Dockerfile.api
     env_file:
       - .env

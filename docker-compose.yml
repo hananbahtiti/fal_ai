@@ -18,7 +18,7 @@ services:
 
   image-worker:
     build:
-      context: .
+      context: ./image-generator
       dockerfile: Dockerfile.worker
     env_file:
       - .env
@@ -55,7 +55,7 @@ services:
 
   video-worker:
     build:
-      context: .
+      context: ./video-generator
       dockerfile: Dockerfile.worker
     env_file:
       - .env
@@ -90,9 +90,9 @@ services:
       - video2video-net
     restart: always
 
-  v2v-worker:
+  video2video-worker:
     build:
-      context: .
+      context: ./video-to-video
       dockerfile: Dockerfile.worker
     env_file:
       - .env
@@ -129,7 +129,7 @@ services:
 
   train-images-worker:
     build:
-      context: .
+      context: ./train-images
       dockerfile: Dockerfile.worker
     env_file:
       - .env
@@ -166,7 +166,7 @@ services:
 
   image-processing-worker:
     build:
-      context: .
+      context: ./image-processing
       dockerfile: Dockerfile.worker
     env_file:
       - .env

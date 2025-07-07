@@ -1,5 +1,5 @@
 import logging
-from tasks import task_model_video_upscaler, task_model_sync_lipsync, task_model_minimax_video_01_image_to_video
+from tasks import task_model_video_upscaler, task_model_sync_lipsync, task_model_minimax_video_01_image_to_video , task_model_kling_video_v1_6_pro_image_to_video
 
 def run_model_task(**kwargs):
     model_name = kwargs.get("model_name")

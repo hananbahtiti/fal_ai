@@ -1,5 +1,5 @@
 import logging
-from tasks import task_model_luma_dream_machine_ray_2, task_model_luma_dream_machine, task_model_kling_video_v1_6, task_model_cogvideox_5b, task_model_hunyuan_video # Add all models here
+from tasks import task_model_luma_dream_machine_ray_2, task_model_luma_dream_machine, task_model_kling_video_v1_6, task_model_cogvideox_5b, task_model_hunyuan_video , task_model_animatediff_v2v_turbo
 
 def run_model_task(**kwargs):
     model_name = kwargs.get("model_name")

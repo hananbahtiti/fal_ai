@@ -178,7 +178,21 @@ services:
 
 networks:
   image-net:
+    external: true
+    name: fal_ai_image-net
+
   video-net:
+    external: true
+    name: fal_ai_video-net
+
   video2video-net:
+    external: true
+    name: fal_ai_video2video-net
+
   train-images-net:
+    external: true
+    name: fal_ai_train-images-net
+
   image-processing-net:
+    external: true
+    name: fal_ai_image-processing-net

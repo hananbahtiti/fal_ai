@@ -16,7 +16,7 @@ class TrainImageRequest(BaseModel):
     params: Optional[Dict[str, Any]] = {}  # Dynamic parameters for training
 
 # Connect to Redis
-redis_conn = Redis(host="redis", port=6379, decode_responses=True)
+redis_conn = Redis(host="train-images-redis", port=6379, decode_responses=True)
 
 # Queue for training jobs
 queue = Queue("train_image_requests", connection=redis_conn)

@@ -26,8 +26,6 @@ services:
       - image-redis
     networks:
       - image-net
-    deploy:
-      replicas: 5
     restart: always
 
   image-redis:
@@ -63,8 +61,6 @@ services:
       - video-redis
     networks:
       - video-net
-    deploy:
-      replicas: 5
     restart: always
 
   video-redis:
@@ -100,8 +96,6 @@ services:
       - video2video-redis
     networks:
       - video2video-net
-    deploy:
-      replicas: 5
     restart: always
 
   video2video-redis:
@@ -137,8 +131,6 @@ services:
       - train-images-redis
     networks:
       - train-images-net
-    deploy:
-      replicas: 5
     restart: always
 
   train-images-redis:
@@ -174,8 +166,6 @@ services:
       - image-processing-redis
     networks:
       - image-processing-net
-    deploy:
-      replicas: 5
     restart: always
 
   image-processing-redis:

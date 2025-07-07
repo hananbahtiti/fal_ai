@@ -14,6 +14,9 @@ def run_model_task(**kwargs):
         task_model_cogvideox_5b.generate_image(**kwargs)
     elif model_name == "fal-ai/hunyuan-video":
         task_model_hunyuan_video.generate_image(**kwargs)
+    elif model_name == "fal-ai/animatediff-v2v/turbo":
+        task_model_animatediff_v2v_turbo.generate_image(**kwargs)
+        
     else:
         logging.error(f"Unsupported model: {model_name}")
         raise ValueError(f"Unsupported model: {model_name}")

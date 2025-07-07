@@ -1,33 +1,204 @@
 version: "3.9"
 
 services:
-  api:
-    build: 
+  # IMAGE GENERATOR
+  image-api:
+    build:
       context: .
       dockerfile: Dockerfile.api
-    container_name: fastapi_server
+    container_name: image-api
     env_file:
       - .env
     ports:
-      - "8000:8000"
+      - "8001:8000"
     depends_on:
-      - redis
+      - image-redis
+    networks:
+      - image-net
     restart: always
 
-  worker:
-    build: 
+  image-worker:
+    build:
       context: .
       dockerfile: Dockerfile.worker
-    container_name: worker
     env_file:
       - .env
     depends_on:
-      - redis
+      - image-redis
+    networks:
+      - image-net
+    deploy:
+      replicas: 5
     restart: always
 
-  redis:
-    image: "redis:latest"
-    container_name: redis
+  image-redis:
+    image: redis:latest
+    container_name: image-redis
     ports:
-      - "6379:6379"
+      - "6371:6379"
+    networks:
+      - image-net
     restart: always
+
+  # VIDEO GENERATOR
+  video-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: video-api
+    env_file:
+      - .env
+    ports:
+      - "8002:8000"
+    depends_on:
+      - video-redis
+    networks:
+      - video-net
+    restart: always
+
+  video-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    env_file:
+      - .env
+    depends_on:
+      - video-redis
+    networks:
+      - video-net
+    deploy:
+      replicas: 5
+    restart: always
+
+  video-redis:
+    image: redis:latest
+    container_name: video-redis
+    ports:
+      - "6372:6379"
+    networks:
+      - video-net
+    restart: always
+
+  # VIDEO TO VIDEO
+  v2v-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: v2v-api
+    env_file:
+      - .env
+    ports:
+      - "8003:8000"
+    depends_on:
+      - v2v-redis
+    networks:
+      - v2v-net
+    restart: always
+
+  v2v-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    env_file:
+      - .env
+    depends_on:
+      - v2v-redis
+    networks:
+      - v2v-net
+    deploy:
+      replicas: 5
+    restart: always
+
+  v2v-redis:
+    image: redis:latest
+    container_name: v2v-redis
+    ports:
+      - "6373:6379"
+    networks:
+      - v2v-net
+    restart: always
+
+  # IMAGE TRAINING
+  train-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: train-api
+    env_file:
+      - .env
+    ports:
+      - "8004:8000"
+    depends_on:
+      - train-redis
+    networks:
+      - train-net
+    restart: always
+
+  train-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    env_file:
+      - .env
+    depends_on:
+      - train-redis
+    networks:
+      - train-net
+    deploy:
+      replicas: 5
+    restart: always
+
+  train-redis:
+    image: redis:latest
+    container_name: train-redis
+    ports:
+      - "6374:6379"
+    networks:
+      - train-net
+    restart: always
+
+  # IMAGE PROCESSING
+  processing-api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: processing-api
+    env_file:
+      - .env
+    ports:
+      - "8005:8000"
+    depends_on:
+      - processing-redis
+    networks:
+      - processing-net
+    restart: always
+
+  processing-worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    env_file:
+      - .env
+    depends_on:
+      - processing-redis
+    networks:
+      - processing-net
+    deploy:
+      replicas: 5
+    restart: always
+
+  processing-redis:
+    image: redis:latest
+    container_name: processing-redis
+    ports:
+      - "6375:6379"
+    networks:
+      - processing-net
+    restart: always
+
+networks:
+  image-net:
+  video-net:
+  v2v-net:
+  train-net:
+  processing-net:

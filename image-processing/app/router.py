@@ -16,6 +16,9 @@ def run_model_task(**kwargs):
          task_model_hyper3d_rodin.generate_image(**kwargs)
     elif model_name == "fal-ai/iclight-v2":
          task_model_iclight_v2.generate_image(**kwargs)
+    elif model_name == "fal-ai/lora/inpaint":
+         task_model_lora_inpaint.generate_image(**kwargs)
+    
     else:
         logging.error(f"Unsupported model: {model_name}")
         raise ValueError(f"Unsupported model: {model_name}")

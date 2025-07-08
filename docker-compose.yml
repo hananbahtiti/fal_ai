@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   # IMAGE GENERATOR
   image-api:
@@ -13,7 +11,7 @@ services:
     depends_on:
       - image-redis
     networks:
-      - image-net
+      - fal_ai_image-net
     restart: always
 
   image-worker:
@@ -25,7 +23,7 @@ services:
     depends_on:
       - image-redis
     networks:
-      - image-net
+      - fal_ai_image-net
     restart: always
 
   image-redis:
@@ -33,7 +31,7 @@ services:
     ports:
       - "6371:6379"
     networks:
-      - image-net
+      - fal_ai_image-net
     restart: always
 
   # VIDEO GENERATOR
@@ -48,7 +46,7 @@ services:
     depends_on:
       - video-redis
     networks:
-      - video-net
+      - fal_ai_video-net
     restart: always
 
   video-worker:
@@ -60,7 +58,7 @@ services:
     depends_on:
       - video-redis
     networks:
-      - video-net
+      - fal_ai_video-net
     restart: always
 
   video-redis:
@@ -68,7 +66,7 @@ services:
     ports:
       - "6372:6379"
     networks:
-      - video-net
+      - fal_ai_video-net
     restart: always
 
   # VIDEO TO VIDEO
@@ -83,7 +81,7 @@ services:
     depends_on:
       - video2video-redis
     networks:
-      - video2video-net
+      - fal_ai_video2video-net
     restart: always
 
   video2video-worker:
@@ -95,7 +93,7 @@ services:
     depends_on:
       - video2video-redis
     networks:
-      - video2video-net
+      - fal_ai_video2video-net
     restart: always
 
   video2video-redis:
@@ -103,7 +101,7 @@ services:
     ports:
       - "6373:6379"
     networks:
-      - video2video-net
+      - fal_ai_video2video-net
     restart: always
 
   # IMAGE TRAINING
@@ -118,7 +116,7 @@ services:
     depends_on:
       - train-images-redis
     networks:
-      - train-images-net
+      - fal_ai_train-images-net
     restart: always
 
   train-images-worker:
@@ -130,7 +128,7 @@ services:
     depends_on:
       - train-images-redis
     networks:
-      - train-images-net
+      - fal_ai_train-images-net
     restart: always
 
   train-images-redis:
@@ -138,7 +136,7 @@ services:
     ports:
       - "6374:6379"
     networks:
-      - train-images-net
+      - fal_ai_train-images-net
     restart: always
 
   # IMAGE PROCESSING
@@ -153,7 +151,7 @@ services:
     depends_on:
       - image-processing-redis
     networks:
-      - image-processing-net
+      - fal_ai_image-processing-net
     restart: always
 
   image-processing-worker:
@@ -165,7 +163,7 @@ services:
     depends_on:
       - image-processing-redis
     networks:
-      - image-processing-net
+      - fal_ai_image-processing-net
     restart: always
 
   image-processing-redis:
@@ -173,7 +171,7 @@ services:
     ports:
       - "6375:6379"
     networks:
-      - image-processing-net
+      - fal_ai_image-processing-net
     restart: always
 
 networks:

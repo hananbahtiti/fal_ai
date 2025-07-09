@@ -1,23 +1,22 @@
-import os
-import logging
 from redis import Redis
-from rq import Worker
+import redis
+from rq import Worker, Queue
+import logging
+import sys
+import os
 
- 
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 logging.basicConfig(level=logging.INFO)
 
- 
-redis_host = os.getenv("REDIS_HOST", "localhost")
-redis_port = int(os.getenv("REDIS_PORT", 6379))
-queue_name = os.getenv("QUEUE_NAME", "default")
+# Connect to Redis
+redis_conn = redis.Redis(host="train-images-redis", port=6379)
+#queue = Queue(connection=redis_conn)
 
- 
-redis_conn = Redis(host=redis_host, port=redis_port)
+# Define queue name
+queue_name = "train_image_requests"
 
 if __name__ == "__main__":
-    logging.info(f"Connecting to Redis at {redis_host}:{redis_port}")
-    logging.info(f"Listening on queue: {queue_name}")
-
     worker = Worker([queue_name], connection=redis_conn)
     logging.info("Worker started, waiting for jobs...")
     worker.work()

@@ -34,10 +34,10 @@ def generate_image(model_name, prompt, client_id, params):
             "strength": params.get("strength", 0.75),
         }
 
-         if "loras" in params and isinstance(params["loras"], list):
+        if "loras" in params and isinstance(params["loras"], list):
             args["loras"] = params["loras"]
 
-         args = {k: v for k, v in args.items() if v is not None}
+        args = {k: v for k, v in args.items() if v is not None}
 
         logging.info(f"Fal arguments: {args}")
 

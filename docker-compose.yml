@@ -34,6 +34,9 @@ services:
       - fal_ai_image-net
     restart: always
 
+
+
+
   # VIDEO GENERATOR
   video-api:
     build:
@@ -68,6 +71,10 @@ services:
     networks:
       - fal_ai_video-net
     restart: always
+
+
+
+
 
   # VIDEO TO VIDEO
   video2video-api:
@@ -104,6 +111,9 @@ services:
       - fal_ai_video2video-net
     restart: always
 
+
+
+
   # IMAGE TRAINING
   train-images-api:
     build:
@@ -138,6 +148,10 @@ services:
     networks:
       - fal_ai_train-images-net
     restart: always
+
+
+
+
 
   # IMAGE PROCESSING
   image-processing-api:

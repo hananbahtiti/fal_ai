@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-redis_conn = Redis(host="redis", port=6379)
+redis_conn = Redis(host="train-images-redis", port=6379)
 logging.basicConfig(level=logging.INFO)
 
 RESULT_TTL = 3600
@@ -34,7 +34,7 @@ def generate_image(model_name, prompt, client_id, params):
             "data_archive_format": params.get("data_archive_format", "zip")
         }
 
-        # تنظيف القاموس من المفاتيح ذات القيم None
+         
         args = {k: v for k, v in args.items() if v is not None}
 
         logging.info(f"Fal arguments: {args}")

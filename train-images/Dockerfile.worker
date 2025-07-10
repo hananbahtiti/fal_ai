@@ -11,8 +11,6 @@ COPY requirements.txt /app/requirements.txt
 # Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Expose ports (optional, since worker doesn't need to expose anything)
-EXPOSE 8000
 
 # Start Worker
 CMD ["python", "worker.py"]

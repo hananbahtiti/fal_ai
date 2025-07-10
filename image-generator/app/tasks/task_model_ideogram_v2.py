@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-redis_conn = Redis(host="redis", port=6379)
+redis_conn = Redis(host="image-redis", port=6379)
 logging.basicConfig(level=logging.INFO)
 
 RESULT_TTL = 3600

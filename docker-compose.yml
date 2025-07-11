@@ -34,7 +34,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.2G
+          memory: 2G
           cpus: '1.5'
 
   image-redis:
@@ -87,7 +87,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.2G
+          memory: 2G
           cpus: '1.5'
 
   video-redis:
@@ -141,7 +141,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.2G
+          memory: 2G
           cpus: '1.5'
 
   video2video-redis:
@@ -194,7 +194,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.2G
+          memory: 2G
           cpus: '1.5'
 
   train-images-redis:
@@ -248,7 +248,7 @@ services:
     deploy:
       resources:
         limits:
-          memory: 1.2G
+          memory: 2G
           cpus: '1.5'
 
   image-processing-redis:

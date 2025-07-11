@@ -13,6 +13,12 @@ services:
     networks:
       - fal_ai_image-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.5'
+    
 
   image-worker:
     build:
@@ -25,6 +31,11 @@ services:
     networks:
       - fal_ai_image-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1.2G
+          cpus: '1.5'
 
   image-redis:
     image: redis:latest
@@ -33,6 +44,11 @@ services:
     networks:
       - fal_ai_image-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
 
 
 
@@ -51,6 +67,11 @@ services:
     networks:
       - fal_ai_video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.5'
 
   video-worker:
     build:
@@ -63,6 +84,11 @@ services:
     networks:
       - fal_ai_video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1.2G
+          cpus: '1.5'
 
   video-redis:
     image: redis:latest
@@ -71,6 +97,11 @@ services:
     networks:
       - fal_ai_video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
 
 
 
@@ -90,6 +121,11 @@ services:
     networks:
       - fal_ai_video2video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.5'
 
   video2video-worker:
     build:
@@ -102,6 +138,11 @@ services:
     networks:
       - fal_ai_video2video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1.2G
+          cpus: '1.5'
 
   video2video-redis:
     image: redis:latest
@@ -110,6 +151,11 @@ services:
     networks:
       - fal_ai_video2video-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
 
 
 

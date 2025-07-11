@@ -128,6 +128,11 @@ services:
     networks:
       - fal_ai_train-images-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.5'
 
   train-images-worker:
     build:
@@ -140,6 +145,11 @@ services:
     networks:
       - fal_ai_train-images-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1.2G
+          cpus: '1.5'
 
   train-images-redis:
     image: redis:latest
@@ -148,6 +158,11 @@ services:
     networks:
       - fal_ai_train-images-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
 
 
 
@@ -167,6 +182,11 @@ services:
     networks:
       - fal_ai_image-processing-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 400M
+          cpus: '0.5'
 
   image-processing-worker:
     build:
@@ -179,6 +199,11 @@ services:
     networks:
       - fal_ai_image-processing-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 1.2G
+          cpus: '1.5'
 
   image-processing-redis:
     image: redis:latest
@@ -187,6 +212,11 @@ services:
     networks:
       - fal_ai_image-processing-net
     restart: always
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
 
 networks:
   fal_ai_image-net:

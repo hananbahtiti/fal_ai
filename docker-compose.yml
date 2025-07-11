@@ -17,7 +17,7 @@ services:
       resources:
         limits:
           memory: 400M
-          cpus: '0.5'
+          cpus: '0.25'
     
 
   image-worker:
@@ -35,7 +35,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.5'
+          cpus: '1.2'
 
   image-redis:
     image: redis:latest
@@ -48,7 +48,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: '0.25'
+          cpus: '0.15'
 
 
 
@@ -71,7 +71,7 @@ services:
       resources:
         limits:
           memory: 400M
-          cpus: '0.5'
+          cpus: '0.25'
 
   video-worker:
     build:
@@ -88,7 +88,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.5'
+          cpus: '1.2'
 
   video-redis:
     image: redis:latest
@@ -101,7 +101,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: '0.25'
+          cpus: '0.15'
 
 
 
@@ -125,7 +125,7 @@ services:
       resources:
         limits:
           memory: 400M
-          cpus: '0.5'
+          cpus: '0.25'
 
   video2video-worker:
     build:
@@ -142,7 +142,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.5'
+          cpus: '1.2'
 
   video2video-redis:
     image: redis:latest
@@ -155,7 +155,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: '0.25'
+          cpus: '0.15'
 
 
 
@@ -178,7 +178,7 @@ services:
       resources:
         limits:
           memory: 400M
-          cpus: '0.5'
+          cpus: '0.25'
 
   train-images-worker:
     build:
@@ -195,7 +195,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.5'
+          cpus: '1.2'
 
   train-images-redis:
     image: redis:latest
@@ -208,7 +208,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: '0.25'
+          cpus: '0.15'
 
 
 
@@ -232,7 +232,7 @@ services:
       resources:
         limits:
           memory: 400M
-          cpus: '0.5'
+          cpus: '0.25'
 
   image-processing-worker:
     build:
@@ -249,7 +249,7 @@ services:
       resources:
         limits:
           memory: 2G
-          cpus: '1.5'
+          cpus: '1.2'
 
   image-processing-redis:
     image: redis:latest
@@ -262,7 +262,7 @@ services:
       resources:
         limits:
           memory: 256M
-          cpus: '0.25'
+          cpus: '0.15'
 
 networks:
   fal_ai_image-net:

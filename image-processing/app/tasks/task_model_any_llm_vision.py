@@ -24,17 +24,22 @@ def generate_image(model_name, prompt, client_id, params):
     """
     try:
         logging.info(f"Generating output for client {client_id} using model {model_name}...")
+        image_file = params.get("image_file")  # متوقع يكون open file object أو bytes
+        image_url = params.get("image_url")
 
-        if not params.get("image_url"):
+        if not image_file and not image_url:
             raise ValueError("Missing or invalid image_url")
 
         args = {
             "prompt": prompt,
-            "image_url": params["image_url"],
-            #"model": params.get("model", "gpt-4o"),
             "system_prompt": params.get("system_prompt", "You are a helpful vision assistant."),
             "reasoning": params.get("reasoning", True)
         }
+
+        if image_url:
+            args["image_url"] = image_url
+        else:
+            args["image"] = image_file
 
         logging.info(f"Fal arguments: {args}")
 

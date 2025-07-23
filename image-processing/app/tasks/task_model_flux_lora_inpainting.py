@@ -19,9 +19,14 @@ def generate_image(model_name, prompt, client_id, params):
     try:
         logging.info(f"Generating image for client {client_id} using model {model_name}...")
 
+        image_file = params.get("image_file")  # متوقع يكون open file object أو bytes
+        image_url = params.get("image_url")
+
+        if not image_file and not image_url:
+            raise ValueError("Missing or invalid image_url")
+
         args = {
             "prompt": prompt,
-            "image_url": params.get("image_url"),
             "mask_url": params.get("mask_url"),
             "image_size": params.get("image_size", "square_hd"),
             "num_inference_steps": params.get("num_inference_steps", 30),
@@ -33,6 +38,11 @@ def generate_image(model_name, prompt, client_id, params):
             "output_format": params.get("output_format", "jpeg"),
             "strength": params.get("strength", 0.75),
         }
+
+        if image_url:
+            args["image_url"] = image_url
+        else:
+            args["image"] = image_file
 
         if "loras" in params and isinstance(params["loras"], list):
             args["loras"] = params["loras"]

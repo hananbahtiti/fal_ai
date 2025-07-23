@@ -21,8 +21,8 @@ def generate_image(model_name, prompt, client_id, params):
 
         args = {
             "prompt": prompt,
-            "fine_tune_id": params.get("fine_tune_id"),
-            "fine_tune_strength": params.get("fine_tune_strength"),
+            "finetune_id": params.get("finetune_id"),
+            "finetune_strength": params.get("finetune_strength"),
             "seed": params.get("seed"),
             "sync_mode": params.get("sync_mode", False),
             "num_images": params.get("num_images", 1),

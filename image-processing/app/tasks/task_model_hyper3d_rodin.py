@@ -37,7 +37,7 @@ def generate_image(model_name, prompt, client_id, params):
             "tier": params.get("tier", "standard"),
             "ta_pose": params.get("ta_pose", False),
             "bbox_condition": params.get("bbox_condition", []),
-            "addons": params.get("addons", [])
+            "addons": params.get("addons", "Default")
         }
 
         logging.info(f"Fal arguments: {args}")

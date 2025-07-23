@@ -25,9 +25,13 @@ def generate_image(model_name, prompt, client_id, params):
         if not image_file and not image_url:
             raise ValueError("Missing or invalid image_url")
 
+        mask_url = params.get("mask_url")
+
+        if not  mask_url:
+            raise ValueError("Missing or invalid mask_url")
+
         args = {
             "prompt": prompt,
-            "mask_url": params.get("mask_url"),
             "image_size": params.get("image_size", "square_hd"),
             "num_inference_steps": params.get("num_inference_steps", 30),
             "seed": params.get("seed"),
@@ -42,7 +46,10 @@ def generate_image(model_name, prompt, client_id, params):
         if image_url:
             args["image_url"] = image_url
         else:
-            args["image"] = image_file
+            args["image"] = image_url
+
+        if mask_url:
+            args["mask_url"] = mask_url
 
         if "loras" in params and isinstance(params["loras"], list):
             args["loras"] = params["loras"]

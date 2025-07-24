@@ -30,11 +30,11 @@ def generate_image(model_name, prompt, client_id, params):
             "input_image_urls": params.get("input_image_urls", []),  # List of image URLs
             "condition_mode": params.get("condition_mode", "Default"),
             "seed": params.get("seed"),
-            "geometry_file_format": params.get("geometry_file_format", "glb"),  # glb, obj, etc.
+            "geometry_file_format": params.get("geometry_file_format", "Default"),  # glb, obj, etc.
             "material": params.get("material", "Default"),
-            "quality": params.get("quality", "standard"),  # low, standard, high
+            "quality": params.get("quality", "Default"),  # low, standard, high
             "use_hyper": params.get("use_hyper", True),
-            "tier": params.get("tier", "standard"),
+            "tier": params.get("tier", "Default"),
             "ta_pose": params.get("ta_pose", False),
             "bbox_condition": params.get("bbox_condition", []),
             "addons": params.get("addons", "Default")

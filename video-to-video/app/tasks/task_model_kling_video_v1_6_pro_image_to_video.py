@@ -24,21 +24,34 @@ def generate_image(model_name, prompt, client_id, params):
     """
     try:
         logging.info(f"Generating video for client {client_id} using model {model_name}...")
+    
+        image_url = params.get("image_url")
+
+        if  not image_url:
+            raise ValueError("Missing or invalid image_url")
+
+        tail_image_url = params.get("tail_image_url")  # متوقع يكون open file object أو bytes
+        
+
+        if not tail_image_url  :
+            raise ValueError("Missing or invalid tail_image_url")
 
         # Build args according to model specification
         args = {
             "prompt": prompt,
-            "image_url": params.get("image_url"),
             "duration": params.get("duration", 3),
             "aspect_ratio": params.get("aspect_ratio", "square"),
-            "tail_image_url": params.get("tail_image_url"),
             "negative_prompt": params.get("negative_prompt", ""),
             "cfg_scale": params.get("cfg_scale", 3.5)
         }
 
-        # Validate required param
-        if not args["image_url"]:
-            raise ValueError("Missing required parameter: image_url")
+        if image_url:
+            args["image_url"] = image_url
+            
+        if tail_image_url:
+            args["tail_image_url"] = tail_image_url
+        
+        
 
         logging.info(f"Fal arguments: {args}")
 

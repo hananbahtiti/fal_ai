@@ -23,16 +23,29 @@ def generate_sync_lipsync(model_name, client_id, params):
     """  
     try:  
         logging.info(f"Generating lipsync for client {client_id} using model {model_name}...")  
+
+        video_url = params.get("video_url")
+
+        if  not video_url:
+            raise ValueError("Missing or invalid video_url")
+
+        audio_url = params.get("audio_url")
+
+        if   not audio_url:
+            raise ValueError("Missing or invalid audio_url")
+
+      
   
         args = {  
-            "video_url": params.get("video_url"),  
-            "audio_url": params.get("audio_url"),  
-            "model": params.get("model", "Wav2Lip"),  # Default model is usually "Wav2Lip"  
-            "sync_mode": params.get("sync_mode", True)  
+            "model": params.get("model", "lipsync-1.9.0-beta"),  # Default model is usually "Wav2Lip"  
+            "sync_mode": params.get("sync_mode", "cut_off")  
         }  
   
-        if not args["video_url"] or not args["audio_url"]:  
-            raise ValueError("video_url and audio_url are required parameters.")  
+        if video_url:
+            args["video_url"] = video_url
+        if audio_url:
+            args["audio_url"] = audio_url
+ 
   
         logging.info(f"LipSync arguments: {args}")  
   

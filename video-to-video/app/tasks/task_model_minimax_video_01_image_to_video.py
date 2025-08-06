@@ -25,15 +25,33 @@ def generate_image(model_name, prompt, client_id, params):
     try:
         logging.info(f"Generating video for client {client_id} using model {model_name}...")
 
+        image_url = params.get("image_url")
+
+        if not image_url:
+            raise ValueError("Missing or invalid image_url")
+
         args = {
             "prompt": prompt,
-            "image_url": params.get("image_url"),
+ 
             "prompt_optimizer": params.get("prompt_optimizer", False)
         }
 
          
-        if not args["image_url"]:
-            raise ValueError("Missing required parameter: image_url")
+        if image_url:
+            args["image_url"] = image_url
+
+        logging.info(f"Fal arguments: {args}")
+
+        handler = fal_client.submit(model_name, arguments=args)
+        result = handler.get()
+
+        redis_conn.setex(f"result:{client_id}", RESULT_TTL, json.dumps(result))
+        logging.info(f"Generation completed for client {client_id}")
+
+    except Exception as e:
+        error_msg = f"Error: {str(e)}"
+        redis_conn.setex(f"result:{client_id}", RESULT_TTL, error_msg)
+        logging.error(f"Failed to generate result for {client_id}: {error_msg}")
 
         logging.info(f"Fal arguments: {args}")
 

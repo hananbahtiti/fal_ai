@@ -23,15 +23,19 @@ def generate_image(model_name, prompt, client_id, params):
       params (dict): Should include 'video_url' and 'scale'.  
     """  
     try:  
-        logging.info(f"Upscaling video for client {client_id} using model {model_name}...")  
+        logging.info(f"Upscaling video for client {client_id} using model {model_name}...")
+        video_url = params.get("video_url")
+
+        if not video_url:
+            raise ValueError("Missing or invalid video_url")
+    
   
-        args = {  
-            "video_url": params.get("video_url"),  
+        args = {   
             "scale": params.get("scale", 2),  # default scale 2x  
         }  
   
-        if not args["video_url"]:  
-            raise ValueError("Missing required parameter: video_url")  
+        if video_url:
+            args["video_url"] = video_url
   
         logging.info(f"Fal arguments: {args}")  
   

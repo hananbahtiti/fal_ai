@@ -24,9 +24,13 @@ def generate_image(model_name, prompt, client_id, params):
     """
     try:
         logging.info(f"Generating animation for client {client_id} using model {model_name}...")
+        video_url = params.get("video_url")
+
+        if  not video_url:
+            raise ValueError("Missing or invalid video_url")
 
         args = {
-            "video_url": params.get("video_url"),  # Required
+            
             "prompt": prompt,
             "negative_prompt": params.get("negative_prompt", ""),
             "num_inference_steps": params.get("num_inference_steps", 25),
@@ -36,6 +40,9 @@ def generate_image(model_name, prompt, client_id, params):
 
         if "seed" in params:
             args["seed"] = params["seed"]
+
+        if video_url:
+            args["video_url"] = video_url
 
         # Loras is a list of dicts with "path" and "scale"
         if "loras" in params:

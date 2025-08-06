@@ -19,10 +19,9 @@ def generate_image(model_name, prompt, client_id, params):
     try:
         logging.info(f"Generating image for client {client_id} using model {model_name}...")
 
-        image_file = params.get("image_file")  # متوقع يكون open file object أو bytes
         image_url = params.get("image_url")
 
-        if not image_file and not image_url:
+        if  not image_url:
             raise ValueError("Missing or invalid image_url")
 
         mask_url = params.get("mask_url")
@@ -45,8 +44,6 @@ def generate_image(model_name, prompt, client_id, params):
 
         if image_url:
             args["image_url"] = image_url
-        else:
-            args["image"] = image_url
 
         if mask_url:
             args["mask_url"] = mask_url
